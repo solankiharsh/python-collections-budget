@@ -67,6 +67,7 @@ passing in the value 5. Set the result equal to a variable called top5.
 #print(f"Top 5 expense categories: \n {top_5_expenses}")
 
 top5 = spending_counter.most_common(5)
+print("Number of categories = " + str(spending_counter.__len__())) #len(spendingCounter)))
 
 # Convert the Dictionary to 2 Lists
 """
