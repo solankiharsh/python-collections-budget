@@ -1,6 +1,117 @@
 from . import Expense
 import matplotlib.pyplot as plt
+import timeit
 
+# Import timeit
+"""
+We want to use the Python timeit module to time whether categorizing expenses was faster using a for loop or 
+set comprehension. 
+First, we need to import timeit at the top of the ExpenseCategories.py file.
+"""
+
+# Call timeit.timeit()
+"""
+After the for loop for the subset test, call timeit.timeit() with the following 4 arguments:
+stmt = "pass"
+
+This will eventually be the line of code we want to time the execution of.
+setup = 
+
+'''
+'''
+This multi-line string will eventually hold the lines of code that are required for stmt to run.
+number=100000
+
+This is the number of executions to time.
+globals=globals()
+
+This specifies the namespace to execute the code.
+"""
+
+# Pass the code to timeit.timeit()
+"""
+Now that we know how to use timeit.timeit(), let’s pass in the actual code we want to time. Replace stmt = "pass" with stmt = "expenses.categorize_for_loop()". Also set setup equal to the following multi-line string:
+
+'''
+from . import Expense
+expenses = Expense.Expenses()
+expenses.read_expenses('data/spending_data.csv')
+'''
+"""
+
+# Print the timeit result
+"""
+Wrap the entire timeit.timeit() call from the previous task in a print() statement. 
+Then it will print out the total number of seconds to execute the statement the specified number of times.
+
+If you test this by running python -m budget.ExpenseCategories you should see around ~1.5 seconds printed out.
+"""
+
+# Duplicate the timeit.timeit() call for set comprehension
+"""
+Now that we’ve set up the timer for expenses.categorize_for_loop(), let’s set up the timer to time 
+expenses.categorize_set_comprehension(). Copy and paste the entire print(timeit.timeit(...)) 
+code from the previous tasks. Then replace stmt = "expenses.categorize_for_loop()" 
+with stmt = "expenses.categorize_set_comprehension()".
+
+If you test this by running python -m budget.ExpenseCategories you should see 
+around ~1.6 seconds printed out for the set comprehension method.
+
+Set comprehension may be faster than a for loop in general for a single loop. 
+However, we had 2 set comprehensions that each required looping to check separate 
+conditionals whereas the for loop method only used one iteration to check the conditionals.
+"""
+
+# Create the figure and axes
+"""
+Now that we’ve determined which categorization method was faster, 
+we want to create a pie chart comparing the expense totals for each category.
+
+After the timeit() code, call fig,ax=plt.subplots() to initialize fig as the Figure and ax as the Axes.
+"""
+
+# Create the list of labels
+"""
+Create a variable called labels and set it equal to a list with the following values: 'Necessary', 'Food', 'Unnecessary'
+"""
+
+# Create the list of sums
+"""
+Inside the divided_set_comp list we have three sets of expenses divided by category. 
+Now we want to create a list that has a sum for each of those expense amounts. 
+Create a variable called divided_expenses_sum and set it equal to an empty list.
+"""
+
+# Sum the amounts in each set
+"""
+Create a for loop that has an iterator called category_exps and loops through divided_set_comp. 
+Inside the for loop, we want to sum the expense amounts for each set using a list comprehension 
+and append that sum to the divided_expenses_sum list. Inside the for loop, call divided_expenses_sum.append(). 
+Then inside the append(), call sum(). Inside sum(), we want the list comprehension 
+that returns x.amount for x in category_exps.
+"""
+
+# Create the pie chart
+"""
+Next, call ax.pie() with the following arguments:
+divided_expenses_sum
+labels = labels
+autopct = '%1.1f%%'
+(This will format the percentage.)
+"""
+
+# Show the figure
+"""
+Finally, to display the graph, call plt.show().
+
+To see the results yourself, you can run python -m budget.ExpenseCategories from the top-level directory. 
+You should see the pie graph pop up in another window automatically.
+"""
+
+
+from . import Expense
+import timeit
+import matplotlib.pyplot as plt
 
 def main():
     expenses = Expense.Expenses()
@@ -12,9 +123,41 @@ def main():
         print("Sets are NOT equal by == test")
 
     for a, b in zip(divided_for_loop, divided_set_comp):
-        if not (a.issubset(b) and 
+        if not (a.issubset(b) and
             b.issubset(a)):
             print("Sets are NOT equal by subset test")
+
+
+    print(timeit.timeit(stmt = "expenses.categorize_for_loop()",
+                        setup=
+                        '''
+from . import Expense
+expenses = Expense.Expenses()
+expenses.read_expenses('data/spending_data.csv')
+                        ''',
+                        number=100000,
+                        globals=globals()))
+
+    print(timeit.timeit(stmt = "expenses.categorize_set_comprehension()",
+                        setup=
+                        '''
+from . import Expense
+expenses = Expense.Expenses()
+expenses.read_expenses('data/spending_data.csv')
+                        ''',
+                        number=100000,
+                        globals=globals()))
+
+    fig, ax = plt.subplots()
+    labels = ['Necessary', 'Food', 'Unnecessary']
+
+    divided_expenses_sum = []
+    for category_exps in divided_set_comp:
+        divided_expenses_sum.append( sum(x.amount for x in category_exps) )
+
+    ax.pie(divided_expenses_sum, labels=labels, autopct='%1.1f%%') #, shadow=True, startangle=90)
+
+    plt.show()
 
 
 if __name__ == "__main__":
