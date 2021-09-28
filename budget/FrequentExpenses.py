@@ -63,8 +63,10 @@ print(f"Spending Counter: \n {spending_counter}")
 We can get the top 5 most common categories by calling the most_common() method on spending_counter and 
 passing in the value 5. Set the result equal to a variable called top5.
 """
-top_5_expenses = spending_counter.most_common(5)
-print(f"Top 5 expense categories: \n {top_5_expenses}")
+#top_5_expenses = spending_counter.most_common(5)
+#print(f"Top 5 expense categories: \n {top_5_expenses}")
+
+top5 = spending_counter.most_common(5)
 
 # Convert the Dictionary to 2 Lists
 """
@@ -74,7 +76,8 @@ We can also use zip(*dictionary_variable) to separate the keys and values of a d
 Since we want to have 2 separate lists for the categories and their counts for the bar graph, 
 let’s call zip(*top5) and set the result equal to two variables - categories, count.
 """
-categories, count = zip(*top_5_expenses)
+#categories, count = zip(*top_5_expenses)
+categories, count = zip(*top5)
 print(f"Expense Categories: \n {categories}")
 print(f"Expense Counts: \n {count}")
 
